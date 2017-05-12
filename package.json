@@ -1,0 +1,14 @@
+{
+  "name": "nodejs_mashup",
+  "version": "0.0.1",
+  "description": "Mashup Web App created using NodeJS",
+  "main": "index.js",
+  "repository": "https://github.com/CGaryDesigns/nodejs_mashup.git",
+  "author": "Chris Gary <cgary@cloudperformer.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@salesforce-ux/design-system": "^2.2.2",
+    "express": "^4.15.2",
+    "express-handlebars": "^3.0.0"
+  }
+}
