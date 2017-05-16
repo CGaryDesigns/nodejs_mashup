@@ -12,7 +12,16 @@ const exphbs = require('express-handlebars');
 let expConfigOptions = {
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname,'views/layouts'),
-    partialsDir: [path.join(__dirname,'views/partials')]
+    partialsDir: [path.join(__dirname,'views/partials')],
+    helpers: {
+        arrayToList : function(incomingArray){
+            if(incomingArray == null || incomingArray === 'undefined'){
+                return '';
+            } else {
+                return incomingArray.join(',');
+            }
+        }
+    }
 };
 
 

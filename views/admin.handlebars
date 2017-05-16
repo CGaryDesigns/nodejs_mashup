@@ -4,5 +4,26 @@
     </div>
     <div class="slds-col slds-size--5-of-6">
         
+        <form name="generalSettingsForm" action="/admin/" enctype="multipart/form-data" method="post">
+            <h3 class="slds-text-heading--medium">Site Settings</h3>
+            <div class="slds-form--stacked">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="siteName">Site Name</label>
+                    <div class="slds-form-element__control">
+                        <input type="text" name="siteName" class="slds-input" value="{{ config.siteName }}" placeholder="Enter Site Name"/>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="siteDescription">Site Description</label>
+                        <div class="slds-form-element__control">
+                            <textarea class="slds-input" name="siteDescription">{{ config.siteDescription }}</textarea>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <button type="submit" class="slds-button slds-button--brand">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+     
     </div>
 </div>

@@ -9,6 +9,9 @@
   "dependencies": {
     "@salesforce-ux/design-system": "^2.2.2",
     "express": "^4.15.2",
-    "express-handlebars": "^3.0.0"
+    "express-handlebars": "^3.0.0",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^19.0.0",
+    "multer": "^1.3.0"
   }
 }

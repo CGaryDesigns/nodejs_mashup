@@ -1,0 +1,41 @@
+<div class="slds-grid slds-grid--vertical-stretch">
+    <div class="slds-col slds-size--1-of-6">
+        {{> adminnav }}
+    </div>
+    <div class="slds-col slds-size--5-of-6">
+        
+        <form name="keywordSettingsForm" action="/admin/keywords" enctype="multipart/form-data" method="post">
+            <h3 class="slds-text-heading--medium">Keyword Settings</h3>
+            <div class="slds-form--stacked">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="primaryKeywords">Primary Keyword Listings</label>
+                    <div class="slds-form-element__control">
+                        <textarea class="slds-input" name="primaryKeywords">{{arrayToList config.keywords.primary}}</textarea>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="secondaryKeywords">Secondary Keyword Listings</label>
+                    <div class="slds-form-element__control">
+                        <textarea class="slds-input" name="secondaryKeywords">{{arrayToList config.keywords.secondary}}</textarea>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="inclusionKeywords">Inclusion Keyword Listings</label>
+                    <div class="slds-form-element__control">
+                        <textarea class="slds-input" name="inclusionKeywords">{{arrayToList config.keywords.inclusive}}</textarea>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="exclusionKeywords">Exclusion Keyword Listings</label>
+                    <div class="slds-form-element__control">
+                        <textarea class="slds-input" name="exclusionKeywords">{{arrayToList config.keywords.exclusive}}</textarea>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <button type="submit" class="slds-button slds-button--brand">Save</button>
+                </div>
+            </div>
+        </form>
+     
+    </div>
+</div>

@@ -5,9 +5,10 @@ const path = require('path');
 let configObj = {};
 
 //we need to determine if the configuration setting file exists
-let configSettingPath = path.join(__dirname,'..');
-fs.readFile(configSettingPath + 'config.json',function(err,data){
+let configSettingPath = path.join(__dirname,'..','config.json');
+fs.readFile(configSettingPath,'utf8',function(err,data){
    if(err){
+       console.log('There was a problem reading the file.');
        //there was a problem, we need to create the Object from Scratch
        configObj = {
            siteName:'Mashup Application',
@@ -21,7 +22,7 @@ fs.readFile(configSettingPath + 'config.json',function(err,data){
            }
        };
    } else {
-       configObj = JSON.parse(data)
+       configObj = JSON.parse(data);
    }
 });
 
