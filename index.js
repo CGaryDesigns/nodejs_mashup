@@ -27,7 +27,8 @@ let expConfigOptions = {
 
 //inclusion of the routes
 let admin = require('./server/routes/admin');
-let api = require('.server/routes/api');
+let api = require('./server/routes/api');
+let main = require('./server/routes/main');
 
 //creation of the express application and
 //setting of the static/virtual folders
@@ -38,6 +39,7 @@ const app = express();
 //creation of the routes
 app.use('/admin',admin);
 app.use('/api',api);
+app.use('/',main);
 
 //association of the handlebars templating modules with
 //the express render engine
