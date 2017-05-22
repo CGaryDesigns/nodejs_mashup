@@ -18,7 +18,7 @@ router.use(function(req,res,next){
         next();
     }catch(err){
         console.log('There was a problem reading the file at %s. The error was %s',configPath,JSON.stringify(err));
-        res.send('There was a problem reading the config file.');
+        res,status(500).end();
     }
 });
 

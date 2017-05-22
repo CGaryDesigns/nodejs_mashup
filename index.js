@@ -47,6 +47,8 @@ app.engine('handlebars',exphbs.create(expConfigOptions).engine);
 app.set('view engine','handlebars');
 
 //bootstrapping of the application
-app.listen(process.env.PORT, function(){
-   console.log('Web App Started - listening on PORT: %s', process.env.PORT);
+let startingPort = process.env.PORT || 3000;
+let startingHost = process.env.HOST || 'localhost';
+app.listen(startingPort,startingHost, function(){
+   console.log('Web App Started - listening on PORT: %s', startingPort);
 });

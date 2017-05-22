@@ -7,7 +7,7 @@
   "author": "Chris Gary <cgary@cloudperformer.com>",
   "license": "MIT",
   "dependencies": {
-    "@salesforce-ux/design-system": "^2.2.2",
+    "@salesforce-ux/design-system": "^2.3.0",
     "express": "^4.15.2",
     "express-handlebars": "^3.0.0",
     "google-auth-library": "^0.10.0",
