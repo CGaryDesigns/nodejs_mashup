@@ -23,17 +23,26 @@ router.use(function(req,res,next){
 });
 
 router.get('',function(req,res){
+    //join together the searchterms and build the query string
+    let queryString = configOptions.keywords.primary.join(',');
+    queryString += ' -' + configOptions.keywords.exclusive.join(',');
     youtubeAPI.search.list({
         part:'snippet',
-        q:'poledance,exercise,aerobics,pole,stripper',
+        q:queryString,
         type:'',
         key:configOptions.youtube.apiKey
     },function(err,response){
         if(err){
             console.log('There was an error.  It was %s',JSON.stringify(err));
         }
-        console.log('The Response was %s',JSON.stringify(response));
-        res.send('the data is retrieved.');
+        console.log('The Response was %s',JSON.stringify(response, null, 4));
+        //res.send('the data is retrieved.');
+        res.render('main',response,function(err,html){
+            if(err){
+                console.log('There was a problem rendering the output.');
+            }
+           res.send(html);
+        });
     });
     
 });
