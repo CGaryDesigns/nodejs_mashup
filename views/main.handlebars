@@ -1,7 +1,12 @@
-<div class="slds-grid slds-grid_pull-padded-medium">
+<div class="slds-grid slds-wrap" style="width:100%;">
     {{#each items}}
-    <div class="slds-col slds-p-horizontal_medium slds-large-size--1-of-4 slds-medium-size--1-of-4">
-        <p>{{this.snippet.title}}</p>
+    <div class="slds-size_1-of-3 slds-p-horizontal_medium slds-m-bottom_medium">
+        <div class="slds-box">
+            <h2 class="slds-text-title_caps slds-truncate" title="{{this.snippet.title}}">{{this.snippet.title}}</h2>
+            <div>
+                <img src="{{this.snippet.thumbnails.medium.url}}" alt="{{this.snippet.description}}"/>
+            </div>
+        </div>
     </div>
     {{/each}}
 </div>

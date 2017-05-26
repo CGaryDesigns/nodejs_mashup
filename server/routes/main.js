@@ -30,6 +30,7 @@ router.get('',function(req,res){
         part:'snippet',
         q:queryString,
         type:'',
+        maxResults:6,
         key:configOptions.youtube.apiKey
     },function(err,response){
         if(err){

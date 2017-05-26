@@ -27,7 +27,11 @@ router.use(function(req,res,next){
                 inclusive:[],
                 exclusive:[]
             },
-            ebay:{},
+            ebay:{
+                appId:'',
+                devId:'',
+                certId:''
+            },
             youtube:{},
             articleFeeds:{}
         };
@@ -119,5 +123,10 @@ router.post('/',upload.array(),function(req,res,next){
       res.send(html);
     }); 
 });
+
+router.route('/ebay')
+    .get(function(req,res,next){
+
+    })
 
 module.exports = router;
