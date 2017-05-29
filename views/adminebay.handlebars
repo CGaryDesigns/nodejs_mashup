@@ -1,0 +1,27 @@
+<div class="slds-grid slds-grid--vertial-stretch">
+    <div class="slds-col slds-size--1-of-6">
+        {{> adminnav }}
+    </div>
+    <div class="slds-col slds-size--5-of-6">
+        <form name="ebaySettingsForm" action="/admin/ebay" enctype="multipart/form-data" method="post">
+            <h3 class="slds-text-heading--medium">EBay Settings</h3>
+            <div class="slds-form--stacked">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="EBayAppId">EBay App ID</label>
+                    <input type="text" name="EBayAppId" id="EBayAppId" class="slds-input" value="{{config.ebay.appId}}"/>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="EBayDevId">EBay Dev ID</label>
+                    <input type="text" name="EBayDevId" id="EBayDevId" class="slds-input" value="{{config.ebay.devId}}"/>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="EbayCertId">Ebay Cert ID</label>
+                    <input type="text" name="EBayCertId" id="EBayCertId" class="slds-input" value="{{config.ebay.certId}}"/>
+                </div>
+                <div class="slds-form-element">
+                    <button type="submit" class="slds-button slds-button--brand">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

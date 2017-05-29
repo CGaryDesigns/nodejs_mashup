@@ -27,7 +27,11 @@ router.use(function(req,res,next){
                 inclusive:[],
                 exclusive:[]
             },
-            ebay:{},
+            ebay:{
+                appId:'',
+                devId:'',
+                certId:''
+            },
             youtube:{},
             articleFeeds:{}
         };
@@ -115,9 +119,39 @@ router.post('/',upload.array(),function(req,res,next){
     res.render('admin',configInfo,function(err,html){
       if(err){
           console.log('There was a problem in the render. The problem was the following: %s', JSON.stringify(err));
-      } 
+      }
       res.send(html);
     }); 
 });
+router.route('/ebay')
+    .get(function(req,res){
+        let configInfo = {path: req.path, config: configOptions};
+        console.log(JSON.stringify(configInfo));
+        res.render('adminebay',configInfo,function(err,html){
+            if(err){
+                console.log('Tere was a problem with the render. The problem was the following: %s',JSON.stringify(err));
+            }
+            res.send(html);
+        });
+
+    })
+    .post(upload.array(),function(req,res){
+        let configInfo = {path: req.path, config: configOptions};
+        configInfo.config.ebay.appId = req.body.EBayAppId;
+        configInfo.config.ebay.devId = req.body.EBayDevId;
+        configInfo.config.ebay.certId = req.body.EBayCertId;
+        //write the configuration
+        fs.writeFile(configSettingPath,JSON.stringify(configInfo.config),'utf8',function(err){
+            if(err){
+                console.log('There was a problem with saving the config data. The problem was %s',JSON.stringify(err));
+            }
+        });
+        res.render('adminebay',configInfo,function(err,html){
+            if(err){
+                console.log('There was a problem rendering. The problem was %s',JSON.stringify(err));
+            }
+            res.send(html);
+        });
+    });
 
 module.exports = router;
