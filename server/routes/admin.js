@@ -154,4 +154,9 @@ router.route('/ebay')
         });
     });
 
+router.route('/ebay')
+    .get(function(req,res,next){
+
+    })
+
 module.exports = router;
