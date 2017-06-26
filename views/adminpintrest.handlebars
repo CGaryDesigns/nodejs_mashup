@@ -1,0 +1,23 @@
+<div class="slds-grid slds-grid--vertial-stretch">
+    <div class="slds-col slds-size--1-of-6">
+        {{> adminnav }}
+    </div>
+    <div class="slds-col slds-size--5-of-6">
+        <form name="pintrestSettings" action="/admin/pintrest" enctype="multipart/form-data" method="post">
+            <h3 class="slds-text-heading--medium">Pintrest Settings</h3>
+            <div class="slds-form--stacked">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="PintrestAppId">Pintrest App ID</label>
+                    <input type="text" name="PintrestAppId" id="PintrestAppId" class="slds-input" value="{{config.pintrest.appId}}"/>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="PintrestAppSecret">Pintrest App Secret</label>
+                    <input type="text" name="PintrestAppSecret" id="PintrestAppSecret" class="slds-input" value="{{config.pintrest.appSecret}}"/>
+                </div>
+                <div class="slds-form-element">
+                    <button type="submit" class="slds-button slds-button--brand">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
