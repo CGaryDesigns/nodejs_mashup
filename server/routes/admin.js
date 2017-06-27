@@ -32,6 +32,10 @@ router.use(function(req,res,next){
                 devId:'',
                 certId:''
             },
+            pintrest:{
+                appId:'',
+                appSecret:''
+            },
             youtube:{},
             articleFeeds:{}
         };
@@ -129,7 +133,7 @@ router.route('/ebay')
         console.log(JSON.stringify(configInfo));
         res.render('adminebay',configInfo,function(err,html){
             if(err){
-                console.log('Tere was a problem with the render. The problem was the following: %s',JSON.stringify(err));
+                console.log('There was a problem with the render. The problem was the following: %s',JSON.stringify(err));
             }
             res.send(html);
         });
@@ -154,9 +158,31 @@ router.route('/ebay')
         });
     });
 
-router.route('/ebay')
-    .get(function(req,res,next){
-
+router.route('/pintrest')
+    .get(function(req,res){
+        let configInfo = {path:req.path, config: configOptions};
+        res.render('adminpintrest',configInfo,function(err,html){
+            if(err){
+                console.log('There was a problem with the render. The problem was the following: %s',JSON.stringify(err));
+            }
+            res.send(html);
+        });
+    })
+    .post(upload.array(),function(req,res){
+        let configInfo = {path:req.path, config: configOptions};
+        configInfo.config.pintrest.appId = req.body.PintrestAppId;
+        configInfo.config.pintrest.appSecret = req.body.PintrestAppSecret;
+        fs.writeFile(configSettingPath,JSON.stringify(configInfo.config),'utf8',function(err){
+            if(err){
+                console.log('There was a problem with saving the config data. The problem was %s',JSON.stringify(err));
+            }
+        });
+        res.render('adminpintrest',configInfo,function(err,html){
+            if(err){
+                console.log('There was a problem with the render. The problem was the following: %s',JSON.stringify(err));
+            }
+            res.send(html);
+        });
     })
 
 module.exports = router;
