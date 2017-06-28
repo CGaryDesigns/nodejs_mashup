@@ -1,12 +1,14 @@
 'use strict';
 
+//require http and https server
+let http = require('http');
+let https = require('https');
 //node JS core package
 const path = require('path');
 //express Application node module
 const express = require('express');
 //handlebars node module
 const exphbs = require('express-handlebars');
-//include both the http and https servers
 
 //for our express handlebars, lets set up some basic configuration
 //options
