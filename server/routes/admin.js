@@ -4,11 +4,24 @@ const path = require('path');
 const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
+const passport = require('passport');
+const oauthStrategy = require('passport-oauth2').OAuth2Strategy;
 let configOptions = {};
 //we need to load the administrative options
 let configSettingPath = path.join(__dirname,'..','config.json');
 let router = express.Router();
 let upload = multer();
+//lets set up the Pintrest Authentication system
+passport.use(new oauthStrategy({
+    authorizationURL:'https://api.pinterest.com/oauth/',
+    tokenURL: 'https://api.pinterest.com/v1/oauth/token',
+    clientID: configOptions.pintrest.appId || '4908078758488978359',
+    clientSecret: configOptions.pintrest.appSecret || '89dd4509ce4447a82e38aaf122b4993f252bccedfe306848de63351b7e0c2621',
+    callbackURL: ''
+},function(accessToken, refreshToken, profile, cb){
+    //this is the verify callback function - if all is well, then we will need to write 
+    //the access token to the configuration file.
+}));
 router.use('/assets',express.static(path.join(__dirname,'../../public/assets')));
 //this is a generic middleware function that will load the config setting for
 //the admin settings
@@ -183,6 +196,12 @@ router.route('/pintrest')
             }
             res.send(html);
         });
-    })
+    });
+
+router.route('/pintrest/authenticate')
+    .post(passport.authenticate('oauth2'));
+
+router.route('/pintrest/authenticate/callback')
+    .get(passport.authenticate('oauth2',{failureRedirect:'/'}));
 
 module.exports = router;

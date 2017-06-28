@@ -6,6 +6,7 @@ const path = require('path');
 const express = require('express');
 //handlebars node module
 const exphbs = require('express-handlebars');
+//include both the http and https servers
 
 //for our express handlebars, lets set up some basic configuration
 //options
