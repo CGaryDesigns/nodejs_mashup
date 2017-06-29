@@ -5,28 +5,55 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const passport = require('passport');
-const oauthStrategy = require('passport-oauth2').OAuth2Strategy;
-let configOptions = {};
+const OAuth2Strategy = require('passport-oauth2');
+let configOptions = {
+            siteName:'Mashup Application',
+            siteDescription:'Site Description',
+            keywords:{
+                primary:[],
+                secondary:[],
+                inclusive:[],
+                exclusive:[]
+            },
+            ebay:{
+                appId:'',
+                devId:'',
+                certId:''
+            },
+            pintrest:{
+                appId:'',
+                appSecret:''
+            },
+            youtube:{},
+            articleFeeds:{}
+        };
 //we need to load the administrative options
 let configSettingPath = path.join(__dirname,'..','config.json');
 let router = express.Router();
 let upload = multer();
 //lets set up the Pintrest Authentication system
-passport.use(new oauthStrategy({
+passport.use(new OAuth2Strategy({
     authorizationURL:'https://api.pinterest.com/oauth/',
     tokenURL: 'https://api.pinterest.com/v1/oauth/token',
     clientID: configOptions.pintrest.appId || '4908078758488978359',
     clientSecret: configOptions.pintrest.appSecret || '89dd4509ce4447a82e38aaf122b4993f252bccedfe306848de63351b7e0c2621',
-    callbackURL: ''
+    callbackURL: 'https://localhost:8443/admin/pintrest/authenticate/callback',
+    scope:'read_public,read_relationships'
 },function(accessToken, refreshToken, profile, cb){
-    //this is the verify callback function - if all is well, then we will need to write 
-    //the access token to the configuration file.
+    let generalUser  = {firstName:'God',lastName:'Admin',accessId:accessToken};
+    cb(null,generalUser);
 }));
+passport.serializeUser(function(user,done){
+    done(null,JSON.stringify(user));
+});
+passport.deserializeUser(function(userString,done){
+    done(null,JSON.parse(userString));
+});
 router.use('/assets',express.static(path.join(__dirname,'../../public/assets')));
 //this is a generic middleware function that will load the config setting for
 //the admin settings
 router.use(function(req,res,next){
-    console.log('Reading file at location %s',configSettingPath);
+    //console.log('Reading file at location %s',configSettingPath);
     try{
         configOptions = JSON.parse(fs.readFileSync(configSettingPath,{encoding:'utf8'}));
     }catch(err){
@@ -55,6 +82,7 @@ router.use(function(req,res,next){
     }
     next();
 });
+router.use(passport.initialize());
 
 router.get('/keywords',function(req,res,next){
    let configInfo = {path:req.path, config:configOptions};
@@ -202,6 +230,18 @@ router.route('/pintrest/authenticate')
     .post(passport.authenticate('oauth2'));
 
 router.route('/pintrest/authenticate/callback')
-    .get(passport.authenticate('oauth2',{failureRedirect:'/'}));
+    .get(passport.authenticate('oauth2',{failureRedirect:'/'}),function(req,res){
+        console.log('The GET method has been called on this Authenticate Callback.');
+        console.log('User Data: ' + JSON.stringify(req.user));
+        console.log('Was config data saved throughout this process? - lets see: ' + JSON.stringify(configOptions));
+        configOptions.pintrest.accessToken = req.user.accessId;
+        fs.writeFile(configSettingPath,JSON.stringify(configOptions),'utf8',function(err){
+            if(err){
+                console.log('There was a problem saving the config data. The problem was the following: %s',JSON.stringify(err));
+            }
+            res.redirect('/admin/pintrest');
+        });
+        
+    })
 
 module.exports = router;

@@ -24,7 +24,11 @@
             <h3 class="slds-text-heading--medium">Pintrest Authentication</h3>
             <div class="slds-form--stacked">
                 <div class="slds-form-element">
+                    {{#if config.pintrest.accessToken}}
+                    <button type="submit" class="slds-button slds-button--success">Authenticated</button>
+                    {{else}}
                     <button type="submit" class="slds-button slds-button--brand">Authenticate</button>
+                    {{/if}}
                 </div>
             </div>
         </form>
