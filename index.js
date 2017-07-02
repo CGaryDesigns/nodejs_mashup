@@ -64,10 +64,9 @@ let startingHost = process.env.HOST || 'localhost';
 let httpServer = http.createServer(app);
 let httpsServer = https.createServer(credentials,app);
 
-httpServer.listen(startingPort);
-httpsServer.listen(startingSecurePort);
-/*
-app.listen(startingPort,startingHost, function(){
-   console.log('Web App Started - listening on PORT: %s', startingPort);
+httpServer.listen(startingPort,function(){
+    consloe.log('Web App Started -listening on PORT: %s', startingPort);
 });
-*/
+httpsServer.listen(startingSecurePort,function(){
+    consloe.log('Web App Started -listening on PORT: %s', startingSecurePort);
+});
