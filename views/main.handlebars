@@ -1,10 +1,20 @@
 <div class="slds-grid slds-wrap" style="width:100%;">
-    {{#each items}}
+    {{#each youtubeData.items}}
     <div class="slds-size_1-of-3 slds-p-horizontal_medium slds-m-bottom_medium">
         <div class="slds-box">
             <h2 class="slds-text-title_caps slds-truncate" title="{{this.snippet.title}}">{{this.snippet.title}}</h2>
             <div>
                 <img src="{{this.snippet.thumbnails.medium.url}}" alt="{{this.snippet.description}}"/>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{#each pintrestData}}
+    <div class="slds-size_1-of-3 slds-p-horizontal_medium slds-m-bottom_medium">
+        <div class="slds-box">
+            <h2 class="slds-text-title_caps slds-truncate" title="{{this.title}}">{{this.title}}</h2>
+            <div>
+                {{this.description}}
             </div>
         </div>
     </div>

@@ -1,5 +1,6 @@
 'use strict';
 const request = require('request');
+const FeedParser = require('feedparser');
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
@@ -20,33 +21,35 @@ let youtubeSearchAsync = function(youtubeSearchOptions){
         });
     });
 };
-let pintrestSearchAsync = function(queryTermArray,accessKey,resultArray){
+let pintrestSearchAsync = function(urlItem,resultArray){
+    let feedData = [];
     return new Promise(function(resolve,reject){
-        let searchEndpoint = 'https://api.pintrest.com/v3/search/pins/';
-        let paramsObj = {
-                            'join':'via_pinner,board,pinner',
-                            'pageSize':50,
-                            'query':queryTermArray.join(','),
-                            'access_token':accessKey
-                        };
-        let requestOpts = {
-            baseUrl:searchEndpoint,
-            method:'GET',
-            headers:{
-
-            },
-            qs:paramsObj
-        };
-        request(requestOpts,function(err, response, body){
-            if(err) {
-                console.log('Response Error was: %s',JSON.stringify(err));
-                reject(err);
-            }
-            resultArray.push(body);
-            console.log('Response body: %s',JSON.stringify(body));
-            console.log('Full Response: %s',JSON.stringify(response));
+        let req = request(urlItem);
+        let feed = new FeedParser({feedurl:urlItem});
+        //request events defined
+        req.on('response',function(res){
+            res.pipe(feed);
+        });
+        req.on('end',function(req){
+            console.log('Response Complete: ');
+        });
+        //feedparser events defined
+        feed.on('error',function(err){
+            if(err) reject(err);
+        })
+        feed.on('end',function(err){
+            if(err) reject(err);
+            if(feedData.length > 0) resultArray.push(feedData);
             resolve(resultArray);
         });
+        feed.on('readable',function(){
+            let readableItem;
+            while(readableItem = this.read()){
+                feedData.push(readableItem);
+                console.log(JSON.stringify(readableItem));
+            }
+        });
+
         
     });
 }
@@ -75,14 +78,15 @@ router.get('',function(req,res){
         key:configOptions.youtube.apiKey
     };
     youtubeSearchAsync(youtubeSearchOptions).then(function(results){
-        return pintrestSearchAsync(configOptions.keywords.primary,configOptions.pintrest.accessKey,[results]);
+        return pintrestSearchAsync(configOptions.pintrest.rssFeed,[results]);
     },function(err){
         console.log('There was a problem obtaining the results. %s',JSON.stringify(err));
         res.sendStatus(500).end();
     }).then(function(resultArray){
-        res.render('main',resultArray[0],function(err,html){
+        let contentData = {context:'Main Data',youtubeData:resultArray[0],pintrestData:resultArray[1]};
+        res.render('main',contentData,function(err,html){
             if(err){
-                console.log('There was a problem rendering the output.');
+                console.log('There was a problem rendering the output. The problem was %s',JSON.stringify(err,null,4));
             }
            res.send(html);
         });

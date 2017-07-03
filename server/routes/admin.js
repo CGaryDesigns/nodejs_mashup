@@ -22,7 +22,8 @@ let configOptions = {
             },
             pintrest:{
                 appId:'',
-                appSecret:''
+                appSecret:'',
+                rssFeed:''
             },
             youtube:{},
             articleFeeds:{}
@@ -74,7 +75,8 @@ router.use(function(req,res,next){
             },
             pintrest:{
                 appId:'',
-                appSecret:''
+                appSecret:'',
+                rssFeed:''
             },
             youtube:{},
             articleFeeds:{}
@@ -213,6 +215,7 @@ router.route('/pintrest')
         let configInfo = {path:req.path, config: configOptions};
         configInfo.config.pintrest.appId = req.body.PintrestAppId;
         configInfo.config.pintrest.appSecret = req.body.PintrestAppSecret;
+        configInfo.config.pintrest.rssFeed = req.body.PintrestRSSFeed;
         fs.writeFile(configSettingPath,JSON.stringify(configInfo.config),'utf8',function(err){
             if(err){
                 console.log('There was a problem with saving the config data. The problem was %s',JSON.stringify(err));

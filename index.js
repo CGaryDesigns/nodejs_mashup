@@ -65,8 +65,8 @@ let httpServer = http.createServer(app);
 let httpsServer = https.createServer(credentials,app);
 
 httpServer.listen(startingPort,function(){
-    consloe.log('Web App Started -listening on PORT: %s', startingPort);
+    console.log('Web App Started -listening on PORT: %s', startingPort);
 });
 httpsServer.listen(startingSecurePort,function(){
-    consloe.log('Web App Started -listening on PORT: %s', startingSecurePort);
+    console.log('Web App Started -listening on PORT: %s', startingSecurePort);
 });
