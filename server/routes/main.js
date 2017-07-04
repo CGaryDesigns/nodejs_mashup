@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const google = require('googleapis');
+const ebay = require('ebay-api');
 let configOptions = {};
 let router = express.Router();
 
@@ -12,7 +13,8 @@ let youtubeAPI = google.youtube('v3');
 
 //load the configuration file
 let configPath = path.join(__dirname,'..','config.json');
-
+//this method is designed to call the youtube API to get
+//videos related to search parameters, returns Promise
 let youtubeSearchAsync = function(youtubeSearchOptions){
     return new Promise(function(resolve,reject){
         youtubeAPI.search.list(youtubeSearchOptions,function(err,response){
@@ -21,11 +23,13 @@ let youtubeSearchAsync = function(youtubeSearchOptions){
         });
     });
 };
+//this method is designed to retrieve a Pintrest RSS feed
+//and parse it for the mashup. Returns a promise
 let pintrestSearchAsync = function(urlItem,resultArray){
     let feedData = [];
     return new Promise(function(resolve,reject){
         let req = request(urlItem);
-        let feed = new FeedParser({feedurl:urlItem});
+        let feed = new FeedParser({addmeta:false});
         //request events defined
         req.on('response',function(res){
             res.pipe(feed);
@@ -46,11 +50,18 @@ let pintrestSearchAsync = function(urlItem,resultArray){
             let readableItem;
             while(readableItem = this.read()){
                 feedData.push(readableItem);
-                console.log(JSON.stringify(readableItem));
+                console.log(JSON.stringify(readableItem,null,4));
             }
         });
 
         
+    });
+}
+//this method is designed to return a list of items 
+//from EBay. returns a Promise.
+let ebaySearchAsync = function(resultArray){
+    return new Promise(function(resolve,reject){
+        resolve(resultArray);
     });
 }
 
