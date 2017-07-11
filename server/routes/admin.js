@@ -6,6 +6,8 @@ const fs = require('fs');
 const multer = require('multer');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2');
+const base64js = require('base64-js');
+const TextEncoder = require('text-encoder-lite');
 let configOptions = {
             siteName:'Mashup Application',
             siteDescription:'Site Description',
@@ -199,6 +201,17 @@ router.route('/ebay')
             }
             res.send(html);
         });
+    });
+router.route('/ebay/authenticate')
+    .post(upload.array(),function(req,res){
+        //determine if the ebay Config Options are filled in.
+        if(configOptions.ebay.appId != null && configOptions.ebay.certIdc!=null){
+            //we need to combine these, base64 them and send them off to get the access token
+            //combine and separate with a colon
+            let combinedItems = configOptions.ebay.appId + ':' + configOptions.ebay.certId;
+            let encoded = new TextEncoderLite('utf-8').encode(combinedItems);
+            let b64Encoded = base64js.fromByteArray(encoded);
+        }
     });
 
 router.route('/pintrest')
